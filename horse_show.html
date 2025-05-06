@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ horse.horse_name }}{% endblock %}
+{% block content %}
+<div class="horse-show">
+    <img src="{{ url_for('static', filename='images/horses/' ~ (horse.image if horse.image else 'default.jpg')) }}" alt="Zirga bilde">
+    <div class="horse-show-details">
+        <h2>{{ horse.horse_name }}</h2>
+        <p><strong>Īpašnieks:</strong> {{ horse.owner_fullname if horse.owner_fullname else 'Nav norādīts' }}</p>
+        <p><strong>Vecums:</strong> {{ horse.age }} gadi</p>
+        <p><strong>Šķirne:</strong> {{ horse.breed }}</p>
+        <p><strong>Dzimums:</strong> {{ horse.gender }}</p>
+        <p><strong>Disciplīna:</strong> {{ horse.discipline_name if horse.discipline_name else 'Nav norādīts' }}</p>
+        <p><strong>Kategorija:</strong> {{ horse.category_name if horse.category_name else 'Nav norādīts' }}</p>
+        <p><strong>Sacensības:</strong> 
+            {% if horse.competition_name %}
+                {{ horse.competition_name }} ({{ horse.competition_location }})
+            {% else %}
+                Nav norādīts
+            {% endif %}
+        </p>
+    </div>
+</div>
+<a href="/zirgi" class="back-button">Atpakaļ uz sarakstu</a>
+{% endblock %}

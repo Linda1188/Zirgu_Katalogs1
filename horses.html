@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Zirgu katalogs{% endblock %}
+{% block content %}
+
+<h2>Pieejamie zirgi</h2>
+
+<button id="filter-toggle" class="filter-button">Filtrēt zirgus</button>
+
+<div id="filter-form" class="filter-form" style="display: none;">
+    <form method="get">
+        <select name="discipline" id="discipline" required>
+            <option value="">Izvēlies disciplīnu</option>
+            {% for discipline in disciplines %}
+            <option value="{{ discipline.id }}" {% if selected_discipline == discipline.id|string %}selected{% endif %}>{{ discipline.name }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="competition" id="competition">
+            <option value="">Izvēlies sacensības</option>
+            {% for competition in competitions %}
+            <option value="{{ competition.id }}" {% if selected_competition == competition.id|string %}selected{% endif %}>{{ competition.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="filter-button">Filtrēt</button>
+    </form>
+</div>
+
+<div class="horse-list">
+    {% for horse in horses %}
+    <a class="horse-item" href="{{ url_for('horse_show', horse_id=horse['id']) }}">
+        <img src="{{ url_for('static', filename='images/horses/' ~ (horse['image'] if horse['image'] else 'default.jpg')) }}" alt="{{ horse['name'] }}">
+        <h3>{{ horse['name'] }}</h3>
+        <p>{{ horse['breed'] }}</p>
+        <p>{{ horse['age'] }} gadi</p>
+    </a>
+    {% endfor %}
+</div>
+
+<script>
+document.getElementById('filter-toggle').addEventListener('click', function() {
+    var form = document.getElementById('filter-form');
+    if (form.style.display === "none") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+});
+</script>
+
+{% endblock %}
